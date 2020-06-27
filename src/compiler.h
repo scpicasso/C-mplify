@@ -14,9 +14,9 @@ struct compiler_data {
     char* input;
     char* output;
     bool keep;
-} comp;
+} compiler_data;
 
-FILE * temp_file;
+FILE* temp_file;
 
 extern FILE* yyinput;
 
