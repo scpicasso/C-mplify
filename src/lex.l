@@ -27,16 +27,15 @@ newline         [\n]
 {space}+            
 {newline}           {lineCount++;}
 
-\"[^"]*\"                          {   char * str = malloc(strlen(yytext)+1);
-                                    strcpy(str, yytext);
-                                    yylval.value = str;
-                                    return cadena;
-                                }
+\"[^"]*\"               {   char * str = malloc(strlen(yytext)+1);
+                            strcpy(str, yytext);
+                            yylval.value = str;
+                            return string_var;
+                        }
 
 "i "                    {return t_int;}
 "s "                    {return t_string;}
-"I "                    {return T_int;}
-"S "                    {return T_string}
+"def "                  {return defined;}
 "r "                    {return t_scanf;}
 "w "                    {return t_printf;}
 "++"                    {return increase;}
@@ -58,14 +57,12 @@ newline         [\n]
 " >= "                  {return beq;}
 " > "                   {return bigger;}
 "main "                 {return main_fun;}
-"returns "              {return ret_type;}
 "args "                 {return open_args;}
-", "                     {return close_args;}
-"cargs"                 {return close_args;}
+", "                    {return comma;}
 "("                     {return open_par;}
 ")"                     {return close_par;}
 ":"                     {return open_fun;}
-"func "                 {return function;}
+"f "                    {return function;}
 "ret"                   {return ret;}
 "end"                   {return end_func;}
 "."                     {return end;}
@@ -73,12 +70,14 @@ newline         [\n]
 -?{digit}+                      {   char * str = malloc(strlen(yytext)+1);
 			                        strcpy(str, yytext);
 			                        yylval.value = str;
-			                        return entero; }
+			                        return int_var; 
+                                }
 
-{alpha}({alpha}|{digit}|'_')*       {   char * str = malloc(strlen(yytext)+1);
+{alpha}({alpha}|{digit}|'_')*   {   char * str = malloc(strlen(yytext)+1);
 			                        strcpy(str,yytext);
 			                        yylval.value = str;
-			                        return var_id; }
+			                        return var_name; 
+                                }
 
 .                               {   yyerror("Invalid character\n"); }
 

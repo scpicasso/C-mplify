@@ -15,22 +15,22 @@ Node* newNode(type type, char* value)
 void append(Node* parent, Node* node) {
     if (parent == NULL || node == NULL)
         return;
-
-    if (parent->left_child != NULL){
+    else if (parent->left_child != NULL){
         Node* aux = parent->left_child;
         while (aux->next != NULL) {
             aux = aux->next;
         }
         node->prev = aux;
         aux->next = node;
-    } else
+    } 
+    else {
         parent->left_child = node;
-    
+    }
     node->parent = parent;
 }
 
 void inorder(Node* node) {
-    if (node->type != EMPTY_TYPE && node->value != NULL)
+    if (node->type!= EMPTY_TYPE && node->value != NULL)
         fprintf(temp_file, "%s", node->value);
     else {
         Node* aux = node->left_child;
