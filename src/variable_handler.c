@@ -130,3 +130,13 @@ int getType(char* value) {
     }
     return -1;
 }
+
+int mainFunc() {
+    if(main_called) {
+        return -1;
+    }
+    else {
+        main_called = true;
+        return 1;
+    }
+}

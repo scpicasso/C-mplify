@@ -3,6 +3,7 @@
 
 #include "node.h"
 #include <string.h>
+#include <stdbool.h>
 
 #define MAX_INDEX 50
 
@@ -22,6 +23,8 @@ struct var {
 
 var table[MAX_INDEX];
 int index = 0;
+
+bool main_called = false;
 
 Node* intOp(Node* n1, Node* n2, operation op);                                  
 
