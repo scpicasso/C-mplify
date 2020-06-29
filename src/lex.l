@@ -3,11 +3,10 @@
     #include <stdlib.h>
     #include "y.tab.h"
 
-    extern void yyerror(char * s);
-    int lineCount = 1;
+    extern void yyerror(const char* s);
 %}
 
-
+%option
 %option yylineno
 %x comment
 
@@ -21,11 +20,11 @@ newline         [\n]
 "/*"                    BEGIN(comment);
 <comment>[^*\n]*        {}
 <comment>"*"+[^*/\n]*   {}
-<comment>\n             lineCount++;
+<comment>\n             ;
 <comment>"*"+"/"        BEGIN(INITIAL);
 
-{space}+            
-{newline}           {lineCount++;}
+{space}+            ;
+{newline}           ;
 
 \"[^"]*\"               {   char * str = malloc(strlen(yytext)+1);
                             strcpy(str, yytext);
@@ -44,10 +43,10 @@ newline         [\n]
 "cl"                    {return close_while;}
 "c "                    {return open_if;}
 "cc"                    {return close_if;}
-"+"                     {return add;}
-"-"                     {return sub;}
-"*"                     {return mult;}
-"/"                     {return divi;}
+" + "                     {return add;}
+" - "                     {return sub;}
+" * "                     {return mult;}
+" / "                     {return divi;}
 " a "                   {return and;}
 " o "                   {return or;}
 " = "                   {return equal;}
@@ -60,18 +59,19 @@ newline         [\n]
 ", "                    {return comma;}
 "("                     {return open_par;}
 ")"                     {return close_par;}
-":"                     {return open_func;}
+"{"                     {return fuopen;}
+"func "                 {return is_fun;}
 "ret"                   {return t_ret;}
-"end"                   {return end_func;}
+"}"                   {return fuclose;}
 "."                     {return end;}
 
--?{digit}+                      {   char * str = malloc(strlen(yytext)+1);
+-?{digit}+                      {   char* str = malloc(strlen(yytext)+1);
 			                        strcpy(str, yytext);
 			                        yylval.value = str;
 			                        return int_var; 
                                 }
 
-{alpha}({alpha}|{digit}|'_')*   {   char * str = malloc(strlen(yytext)+1);
+{alpha}({alpha}|{digit}|'_')*   {   char* str = malloc(strlen(yytext)+1);
 			                        strcpy(str,yytext);
 			                        yylval.value = str;
 			                        return var_name; 
