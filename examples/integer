@@ -1,0 +1,15 @@
+i var 3.
+i var2 4.
+
+funcion1 i(i var3, i var4).
+
+funcion1 i (i var3, i var4):
+ret (var3 + var4 + var).
+end
+
+main i ():
+i var5 funcion1(4, var2).
+w(var5).
+end
+
+

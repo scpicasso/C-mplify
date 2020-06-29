@@ -5,7 +5,8 @@
     #include "compiler.h"
 
     int yylex();
-	void yyerror(char * s);
+    extern int yylineno;
+	void yyerror(const char* s);
     void headers();
 %}
 
@@ -20,7 +21,7 @@
 
 %token<value> int_var string_var var_name
 
-%type<node> PROGRAM DEF_VARS GLOB_VARS DEF_FUNCS DEF_FUNC ARG FUNCS FUNC MAIN_FUNC DEF_VAR VARS VAR EXP ARGS TYPE BODY COMP EVALUATE OP LINE BLOCK IFBLOCK WHILEBLOCK DECLARE REASSIGN PRINT SCAN RET INC DEC ASSIGN
+%type<node> PROGRAM DEF_VARS GLOB_VARS DEF_FUNCS DEF_FUNC ARG FUNCS FUNC MAIN_FUNC DEF_VAR VARS VAR EXP ARGS TYPE BODY COMP EVALUATE OP LINE BLOCK IFBLOCK WHILEBLOCK DECLARE REASSIGN PRINT SCAN RET INC DEC ASSIGN ALL_ARGS
 
 %start PROGRAM
 
@@ -134,7 +135,6 @@ EXP : string_var										{	$$ = newNode(STR_TYPE, $1);}
 															}
 														}
 	| OP 												{	$$ = $1;}
-	| EVALUATE											{	$$ = $1;}
 	;
 
 OP : EXP add EXP										{	$$ = addExp($1, $3);}
@@ -197,7 +197,7 @@ DEF_FUNCS : DEF_FUNC end DEF_FUNCS 						{	$$ = newNode(EMPTY_TYPE, NULL);
 	 	  |												{	$$ = NULL;}
 	      ;
 
-DEF_FUNC : var_name TYPE open_par ARGS close_par		{	if(addVariable($1, $2->type) == -1) {							
+DEF_FUNC : var_name TYPE open_par ALL_ARGS close_par		{	if(addVariable($1, $2->type) == -1) {							
 																yyerror("Variable limit surpassed \n");
 															}
 															$$ = newNode(EMPTY_TYPE, NULL);
@@ -208,13 +208,16 @@ DEF_FUNC : var_name TYPE open_par ARGS close_par		{	if(addVariable($1, $2->type)
 															append($$, newNode(READ_AS_TYPE, ")"));
 															}
 		 ;
+ALL_ARGS : ARGS 										{	$$ = $1;}
+		 |												{	$$ = NULL;}	
+		 ;
 
 ARGS : ARG comma ARGS 									{	$$ = newNode(EMPTY_TYPE, NULL);
 															append($$,$1);
-															append($$, newNode(READ_AS_TYPE, ","));
+															append($$, newNode(READ_AS_TYPE, ", "));
 															append($$, $3);
 														}
-	 |													{	$$ = NULL;}
+	 |	ARG												{	$$ = $1;}
 	 ;
 
 ARG : TYPE var_name										{	if(addVariable($2, $1->type) == -1) {
@@ -234,7 +237,7 @@ FUNCS : FUNC FUNCS 										{	$$ = newNode(EMPTY_TYPE, NULL);
 	  |													{	$$ = NULL;}
 	  ;
 
-FUNC : var_name TYPE open_par ARGS close_par open_func BODY end_func	{	$$ = newNode(EMPTY_TYPE, NULL);
+FUNC : var_name TYPE open_par ALL_ARGS close_par open_func BODY end_func	{	$$ = newNode(EMPTY_TYPE, NULL);
 																			append($$, $2);
 																			append($$, newNode(READ_AS_TYPE, $1));
 																			append($$, newNode(READ_AS_TYPE, "("));
@@ -340,7 +343,7 @@ WHILEBLOCK : open_while EVALUATE end BODY close_while				{	$$ = newNode(EMPTY_TY
 		;
 
 
-MAIN_FUNC : main_func TYPE open_par ARGS close_par open_func BODY end_func 	{	$$ = newNode(EMPTY_TYPE, NULL);
+MAIN_FUNC : main_func TYPE open_par ALL_ARGS close_par open_func BODY end_func 	{	$$ = newNode(EMPTY_TYPE, NULL);
 																				if(mainFunc() < 0) {
 																					yyerror("There should be only one main function");
 																				}
@@ -362,8 +365,8 @@ void headers() {
 	"#include <string.h> \n");
 }
 
-void yyerror(char* str) {
-	fprintf(stderr, "Error: %s", str);
+void yyerror(const char* msg) {
+	fprintf(stderr, "In line: %d \nYACC Error: %s\n", yylineno, msg);
 	closeParser(false);
 	exit(1);
 }

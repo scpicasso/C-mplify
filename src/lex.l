@@ -8,7 +8,7 @@
 %}
 
 
-%option
+%option yylineno
 %x comment
 
 digit			[0-9]

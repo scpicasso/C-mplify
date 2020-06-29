@@ -6,7 +6,7 @@
 
 #define MAX_INDEX 50
 
-extern void yyerror(char * s);
+extern void yyerror(const char * s);
 
 typedef enum operation {
     ADD, 
