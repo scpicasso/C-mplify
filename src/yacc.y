@@ -20,7 +20,7 @@
 
 %token<value> int_var string_var var_name
 
-%type<node> PROGRAM DEF_VARS GLOB_VARS DEF_FUNCS DEF_FUNC ARG FUNCS FUNC MAIN_FUNC DEF_VAR VARS VAR EXP ARGS TYPE BODY COMP EVALUATE OP LINE BLOCK IFBLOCK WHILEBLOCK DECLARE REASSIGN PRINT SCAN RET INC DEC DEFINED_V DEFINED_F ASSIGN
+%type<node> PROGRAM DEF_VARS GLOB_VARS DEF_FUNCS DEF_FUNC ARG FUNCS FUNC MAIN_FUNC DEF_VAR VARS VAR EXP ARGS TYPE BODY COMP EVALUATE OP LINE BLOCK IFBLOCK WHILEBLOCK DECLARE REASSIGN PRINT SCAN RET INC DEC ASSIGN
 
 %start PROGRAM
 
@@ -36,7 +36,7 @@
 
 %%
 
-PROGRAM	: DEFINED_V GLOB_VARS DEFINED_F FUNCS MAIN_FUNC		{	$$ = newNode(EMPTY_TYPE, NULL);
+PROGRAM	: DEF_VARS GLOB_VARS DEF_FUNCS FUNCS MAIN_FUNC		{	$$ = newNode(EMPTY_TYPE, NULL);
 																append($$, $1);
 																append($$, $2);
 																append($$, $3);
@@ -46,10 +46,6 @@ PROGRAM	: DEFINED_V GLOB_VARS DEFINED_F FUNCS MAIN_FUNC		{	$$ = newNode(EMPTY_TY
 																inorder($$);
 															}
 		;
-
-DEFINED_V : DEF_VARS									{	$$ = $1;}
-		  |												{	$$ = NULL;} 
-		  ;
 
 DEF_VARS : DEF_VAR end DEF_VARS							{	$$ = newNode(EMPTY_TYPE, NULL);
 															append($$, $1);
@@ -71,7 +67,6 @@ DEF_VAR : def var_name EXP								{	if(addVariable($2, $3->type) == -1) {
 		;
 
 GLOB_VARS : VARS										{	$$ = $1;}
-		  |												{	$$ = NULL;} 
 		  ;
 
 VARS : VAR end VARS 									{	$$ = newNode(EMPTY_TYPE, NULL);
@@ -193,10 +188,6 @@ COMP : equal											{	$$ = newNode(READ_AS_TYPE, "==");}
 	 | beq												{	$$ = newNode(READ_AS_TYPE, ">=");}
 	 | seq												{	$$ = newNode(READ_AS_TYPE, "<=");}
 	 ;
-
-DEFINED_F : DEF_FUNCS									{	$$ = $1;}
-		  |												{	$$ = NULL;} 
-		  ;
 
 DEF_FUNCS : DEF_FUNC end DEF_FUNCS 						{	$$ = newNode(EMPTY_TYPE, NULL);
 															append($$, $1);
