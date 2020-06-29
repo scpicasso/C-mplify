@@ -52,7 +52,7 @@ void initializeFiles(char* input_file) {
         fprintf(stdout, "ERROR: The file you asked for cannot be opened.\n");
         exit(1);
     }
-    yyinput = read_file;
+    yyin = read_file;
     temp_file = fopen(TEMPORARY_FILE, "w");
     if (temp_file == NULL) {
         fprintf(stdout, "ERROR: The temporary file could not be opened.\n");
@@ -77,7 +77,7 @@ void closeParser(bool keep) {
         exit(1);
     }
     fclose(temp_file);
-    fclose(yyinput);
+    fclose(yyin);
 }
 
 int main(int argc, char *argv[]) {

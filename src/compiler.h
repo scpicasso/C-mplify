@@ -18,6 +18,16 @@ struct compiler_data {
 
 FILE* temp_file;
 
-extern FILE* yyinput;
+extern FILE* yyin;
+
+void closeParser(bool keep);
+
+void gccCompilation(char* output_file);
+
+void initializeFiles(char* input_file);
+
+void openParser(int argc, char *argv[], struct compiler_data * comp);
+
+void helpGuide();
 
 #endif

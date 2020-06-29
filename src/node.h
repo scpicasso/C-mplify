@@ -5,14 +5,14 @@
 #include <stdlib.h>
 #include "compiler.h"
 
-enum types {
+typedef enum types {
 	EMPTY_TYPE, 
 	READ_AS_TYPE, 
 	STR_TYPE,
 	INT_TYPE,
 	} type;
 
-struct Node {
+typedef struct Node {
 	type type;
 	char* value;
 	struct Node* next;
@@ -22,5 +22,11 @@ struct Node {
 } Node;
 
 extern FILE* temp_file; 
+
+Node* newNode(type type, char* value);
+
+void append(Node* parent, Node* node);
+
+void inorder(Node* node);
 
 #endif

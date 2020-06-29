@@ -1,7 +1,12 @@
 #include "variable_handler.h"
+#include "node.h"
 
-Node* addExp(Node* n1, Node* n2) {
-    Node* ret;
+int var_index = 0;
+
+bool main_called = false;
+
+struct Node* addExp(struct Node* n1, struct Node* n2) {
+    struct Node* ret;
     if (n1->type == INT_TYPE && n2->type == INT_TYPE) {
         ret = intOp(n1, n2, ADD);
     } 
@@ -30,8 +35,8 @@ Node* addExp(Node* n1, Node* n2) {
     return ret;
 }
 
-Node* subExp(Node* n1, Node* n2) {
-    Node* ret;
+struct Node* subExp(struct Node* n1, struct Node* n2) {
+    struct Node* ret;
     if (n1->type == INT_TYPE && n2->type == INT_TYPE) {
         ret = intOp(n1, n2, SUB);
     } 
@@ -41,8 +46,8 @@ Node* subExp(Node* n1, Node* n2) {
     return ret;
 }
 
-Node* multExp(Node* n1, Node* n2) {
-    Node* ret;
+struct Node* multExp(struct Node* n1, struct Node* n2) {
+    struct Node* ret;
     if (n1->type == INT_TYPE && n2->type == INT_TYPE) {
         ret = intOp(n1, n2, MULT);
     }
@@ -53,8 +58,8 @@ Node* multExp(Node* n1, Node* n2) {
     return ret;
 }
 
-Node* divExp(Node* n1, Node* n2) {
-    Node* ret;
+struct Node* divExp(struct Node* n1, struct Node* n2) {
+    struct Node* ret;
     if (n1->type == INT_TYPE && n2->type == INT_TYPE) {
         ret = intOp(n1, n2, DIV);
     } 
@@ -65,8 +70,8 @@ Node* divExp(Node* n1, Node* n2) {
     return ret;
 }
 
-Node* intOp(Node* n1, Node* n2, operation op) {
-    Node* ret;
+struct Node* intOp(struct Node* n1, struct Node* n2, operation op) {
+    struct Node* ret;
     if (n1->value != NULL && n2->value != NULL) {
         int op1 = atoi(n1->value);
         int op2 = atoi(n2->value);
@@ -107,23 +112,23 @@ Node* intOp(Node* n1, Node* n2, operation op) {
                 str = " / ";
                 break;
         }
-        append(ret, newNode(AS_READ_TYPE, str));
+        append(ret, newNode(READ_AS_TYPE, str));
         append(ret, n2);
     }
     return ret;
 }
 
 int addVariable(char* value, int type) {
-    if (index == MAX_INDEX)
+    if (var_index == MAX_INDEX)
         return -1;
-    table[index].value = value;
-    table[index].type = type;
-    index++;
+    table[var_index].value = value;
+    table[var_index].type = type;
+    var_index++;
     return 1;
 }
 
 int getType(char* value) {
-    for (int i = index-1; i>-1; i--) {
+    for (int i = var_index-1; i>-1; i--) {
         if (strcmp(value, table[i].value) == 0) {
             return table[i].type;
         }

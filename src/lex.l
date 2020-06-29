@@ -35,11 +35,11 @@ newline         [\n]
 
 "i "                    {return t_int;}
 "s "                    {return t_string;}
-"def "                  {return defined;}
+"def "                  {return def;}
 "r "                    {return t_scanf;}
 "w "                    {return t_printf;}
 "++"                    {return increase;}
-"--"                    {return reduce;}
+"--"                    {return decrease;}
 "l "                    {return open_while;}
 "cl"                    {return close_while;}
 "c "                    {return open_if;}
@@ -47,7 +47,7 @@ newline         [\n]
 "+"                     {return add;}
 "-"                     {return sub;}
 "*"                     {return mult;}
-"/"                     {return div;}
+"/"                     {return divi;}
 " a "                   {return and;}
 " o "                   {return or;}
 " = "                   {return equal;}
@@ -56,14 +56,12 @@ newline         [\n]
 " < "                   {return smaller;}
 " >= "                  {return beq;}
 " > "                   {return bigger;}
-"main "                 {return main_fun;}
-"args "                 {return open_args;}
+"main "                 {return main_func;}
 ", "                    {return comma;}
 "("                     {return open_par;}
 ")"                     {return close_par;}
-":"                     {return open_fun;}
-"f "                    {return function;}
-"ret"                   {return ret;}
+":"                     {return open_func;}
+"ret"                   {return t_ret;}
 "end"                   {return end_func;}
 "."                     {return end;}
 

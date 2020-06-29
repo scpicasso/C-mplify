@@ -1,7 +1,6 @@
 #ifndef VARIABLE_HANDLER_H
 #define VARIABLE_HANDLER_H
 
-#include "node.h"
 #include <string.h>
 #include <stdbool.h>
 
@@ -9,7 +8,7 @@
 
 extern void yyerror(char * s);
 
-enum operations {
+typedef enum operation {
     ADD, 
     SUB, 
     MULT, 
@@ -17,15 +16,26 @@ enum operations {
 } operation;
 
 struct var {
-    char* final_value;
+    char* value;
     int type;
 } var;
 
-var table[MAX_INDEX];
-int index = 0;
+struct var table[MAX_INDEX];
 
-bool main_called = false;
+struct Node* intOp(struct Node* n1, struct Node* n2, operation op);  
 
-Node* intOp(Node* n1, Node* n2, operation op);                                  
+int mainFunc();
+
+int getType(char* value);
+
+int addVariable(char* value, int type);
+
+struct Node* divExp(struct Node* n1, struct Node* n2);
+
+struct Node* multExp(struct Node* n1, struct Node* n2);
+
+struct Node* subExp(struct Node* n1, struct Node* n2);
+
+struct Node* addExp(struct Node* n1, struct Node* n2);                                
 
 #endif
