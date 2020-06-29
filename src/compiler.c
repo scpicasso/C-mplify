@@ -1,5 +1,6 @@
 #include "compiler.h"
 
+
 void helpGuide() {
     fprintf(stdout,
         "C-mplify Help Guide:\n"
@@ -71,13 +72,16 @@ void gccCompilation(char* output_file) {
     }
 }
 
+void freeResources(){
+    fclose(temp_file);
+    fclose(yyin);
+}
+
 void closeParser(bool keep) {
     if(!keep && remove(TEMPORARY_FILE)) {
         fprintf(stdout, "ERROR: Could not eliminate temporary file.\n");
         exit(1);
     }
-    fclose(temp_file);
-    fclose(yyin);
 }
 
 int main(int argc, char *argv[]) {
@@ -85,6 +89,7 @@ int main(int argc, char *argv[]) {
     openParser(argc, argv, &comp);
     initializeFiles(comp.input);
     yyparse();
+    freeResources();
     gccCompilation(comp.output);
     closeParser(comp.keep);
     return 0;
