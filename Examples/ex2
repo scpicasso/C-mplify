@@ -1,0 +1,10 @@
+
+main i () {
+s var "chau".
+w(var).
+s var2.
+r(var2).
+w(var2).
+
+ret.
+}

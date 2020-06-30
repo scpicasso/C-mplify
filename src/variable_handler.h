@@ -36,6 +36,11 @@ struct Node* multExp(struct Node* n1, struct Node* n2);
 
 struct Node* subExp(struct Node* n1, struct Node* n2);
 
-struct Node* addExp(struct Node* n1, struct Node* n2);                                
+struct Node* addExp(struct Node* n1, struct Node* n2);
+
+static char* newScan = "char* newScan(){\n" 
+"char* str = (char*)malloc(15);\n"
+"scanf(\"%s\", str);\n"
+ "return str;\n}\n";                      
 
 #endif

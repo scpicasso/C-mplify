@@ -77,8 +77,8 @@ void closeFiles() {
     fclose(yyin);
 }
 
-void deleteTemp(bool keep) {
-    if(!keep && remove(TEMPORARY_FILE)) {
+void deleteTemp() {
+    if(remove(TEMPORARY_FILE)) {
         fprintf(stdout, "ERROR: Could not eliminate temporary file.\n");
         exit(1);
     }
@@ -91,6 +91,8 @@ int main(int argc, char *argv[]) {
     yyparse();
     closeFiles();
     gccCompilation(comp.output);
-    deleteTemp(comp.keep);
+    if(!comp.keep) {
+        deleteTemp();
+    }
     return 0;
 }

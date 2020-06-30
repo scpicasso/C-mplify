@@ -34,8 +34,8 @@ newline         [\n]
 "i "                    {return t_int;}
 "s "                    {return t_string;}
 "def "                  {return def;}
-"r "                    {return t_scanf;}
-"w "                    {return t_printf;}
+"r"                    {return t_scanf;}
+"w"                    {return t_printf;}
 "++"                    {return increase;}
 "--"                    {return decrease;}
 "l "                    {return open_while;}

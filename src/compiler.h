@@ -8,7 +8,7 @@
 #include <ctype.h>
 #include "y.tab.h"
 
-#define TEMPORARY_FILE ".comp_mid.tmp.c"
+#define TEMPORARY_FILE "comp.tmp.c"
 
 struct compiler_data {
     char* input;
@@ -22,7 +22,7 @@ extern FILE* yyin;
 
 void closeFiles();
 
-void deleteTemp(bool keep);
+void deleteTemp();
 
 void gccCompilation(char* output_file);
 

@@ -1,9 +1,12 @@
 def NUM 1.
 
 main i () {
-i var 1.
+i var NUM.
 i new var + 3.
-i var3 0.
+i var3 2.
+w(new).
+new new + var3.
+w(new).
 
-ret 1.
+ret new.
 }

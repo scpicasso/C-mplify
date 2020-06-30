@@ -327,8 +327,8 @@ SCAN : t_scanf open_par var_name close_par							{	int type = getType($3);
 																			yyerror("Incompatible type\n");
 																		}
 																		$$ = newNode(EMPTY_TYPE, NULL);
-																		append($$, newNode(READ_AS_TYPE, "scanf(\"%s\", &"));
 																		append($$, newNode(READ_AS_TYPE, $3));
+																		append($$, newNode(READ_AS_TYPE, " = newScan("));
 																		append($$, newNode(READ_AS_TYPE, ")"));
 																	}
 	 ;
@@ -385,12 +385,13 @@ void headers() {
 	fprintf(temp_file, "#include <stdio.h> \n"
 	"#include <stdlib.h> \n"
 	"#include <string.h> \n");
+	fprintf(temp_file, "%s", newScan);
 }
 
 void yyerror(const char* msg) {
 	fprintf(stderr, "In line: %d \nYACC Error: %s\n", yylineno, msg);
 	closeFiles();
-	deleteTemp(false);
+	deleteTemp();
 	exit(1);
 }
 
