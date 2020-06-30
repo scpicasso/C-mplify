@@ -138,7 +138,7 @@ EXP : string_var										{	$$ = newNode(STR_TYPE, $1);}
 	| OP 												{	$$ = $1;}
 	;
 
-EQ_FUNC : var_name open_par ARGS close_par 				{	int aux = getType($1);
+EQ_FUNC : var_name open_par ALL_ARGS close_par 				{	int aux = getType($1);
 															if(aux == -1) {
 																yyerror("Undeclared function\n");
 															}

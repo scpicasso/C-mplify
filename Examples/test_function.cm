@@ -1,0 +1,34 @@
+def NUM 1.
+def HOLA "hola".
+def CHAU "chau".
+
+func funcionpoderosa i ().
+func funcionnotanpoderosa i ().
+
+func funcionpoderosastring s ().
+func funcionnotanpoderosastring s ().
+
+funcionnotanpoderosa func i () {
+    ret NUM.
+}
+
+funcionpoderosa func i () {
+    ret funcionnotanpoderosa() + NUM.
+}
+
+funcionnotanpoderosastring func s () {
+    ret HOLA.
+}
+
+funcionpoderosastring func s () {
+    s aux CHAU.
+    aux aux + funcionnotanpoderosastring().
+}
+
+main i () {
+    w(funcionpoderosa()).
+    w("\n").
+    w(funcionpoderosastring()).
+    w("\n").
+    ret 0.
+}
