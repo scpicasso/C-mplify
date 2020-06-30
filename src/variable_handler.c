@@ -9,24 +9,6 @@ struct Node* addExp(struct Node* n1, struct Node* n2) {
     if (n1->type == INT_TYPE && n2->type == INT_TYPE) {
         n = intOp(n1, n2, ADD);
     } 
-    else if (n1->type == STR_TYPE && n2->type == STR_TYPE) {
-        if (n1->value != NULL && n2->value != NULL) {
-            int len1 = strlen(n1->value);
-            char new_str[len1 + strlen(n2->value) -1];
-            strncpy(new_str, n1->value, len1 - 1);
-            strcat(new_str, n2->value);
-            n = newNode(STR_TYPE, new_str);
-        } 
-        else if (n1->value == NULL && n2->value != NULL) {
-            n = newNode(STR_TYPE, n2->value);
-        }
-        else if (n2->value == NULL && n1->value != NULL) {
-            n = newNode(STR_TYPE, n1->value);
-        }
-        else {
-            n = newNode(STR_TYPE, NULL);
-        }
-    } 
     else {
         yyerror("Addition between incompatible types cannot be executed.\n");
     }

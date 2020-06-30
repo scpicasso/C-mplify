@@ -150,7 +150,20 @@ EQ_FUNC : var_name open_par ARGS close_par 				{	int aux = getType($1);
 														}
 		;
 
-OP : EXP add EXP										{	$$ = addExp($1, $3);}
+OP : EXP add EXP										{	if($1->type == STR_TYPE && $3->type == STR_TYPE) {
+																$$ = newNode(STR_TYPE, NULL);
+																append($$, newNode(READ_AS_TYPE, "stringConcat("));
+																append($$, $1);
+																append($$, newNode(READ_AS_TYPE, ", "));
+																append($$, $3);
+																append($$, newNode(READ_AS_TYPE, ")"));
+															}
+															
+															else {	
+																$$ = addExp($1, $3);
+															}
+														}
+
    | EXP sub EXP										{	$$ = subExp($1, $3);}
    | EXP mult EXP										{	$$ = multExp($1, $3);}
    | EXP divi EXP										{	$$ = divExp($1, $3);}
@@ -385,7 +398,8 @@ void headers() {
 	fprintf(temp_file, "#include <stdio.h> \n"
 	"#include <stdlib.h> \n"
 	"#include <string.h> \n");
-	fprintf(temp_file, "%s", newScan);
+	fprintf(temp_file, "%s\n", newScan);
+	fprintf(temp_file, "%s\n", stringConcat);
 }
 
 void yyerror(const char* msg) {

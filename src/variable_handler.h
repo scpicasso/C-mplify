@@ -41,6 +41,12 @@ struct Node* addExp(struct Node* n1, struct Node* n2);
 static char* newScan = "char* newScan(){\n" 
 "char* str = (char*)malloc(15);\n"
 "scanf(\"%s\", str);\n"
- "return str;\n}\n";                      
+ "return str;\n}\n";
+
+ static char* stringConcat = "char* stringConcat(char* str1, char* str2){\n"
+ "char* new_str = malloc (strlen(str1) + strlen(str2) + 1);\n"
+ "strcat(new_str, str1);\n"
+ "strcat(new_str, str2);\n"
+ "return new_str;\n}\n";         
 
 #endif
