@@ -210,7 +210,7 @@ DEF_FUNCS : DEF_FUNC end DEF_FUNCS 						{	$$ = newNode(EMPTY_TYPE, NULL);
 	 	  |												{	$$ = NULL;}
 	      ;
 
-DEF_FUNC : is_fun var_name TYPE open_par ALL_ARGS close_par		{	if(addVariable($2, $3->type) == -1) {							
+DEF_FUNC : is_fun var_name TYPE open_par ALL_ARGS close_par		{	if(addVariable($2, $3->type) == -1) {
 																yyerror("Variable limit surpassed \n");
 															}
 															$$ = newNode(EMPTY_TYPE, NULL);
@@ -222,7 +222,7 @@ DEF_FUNC : is_fun var_name TYPE open_par ALL_ARGS close_par		{	if(addVariable($2
 															}
 		 ;
 ALL_ARGS : ARGS 										{	$$ = $1;}
-		 |												{	$$ = NULL;}	
+		 |												{	$$ = NULL;}
 		 ;
 
 ARGS : ARG comma ARGS 									{	$$ = newNode(EMPTY_TYPE, NULL);
@@ -250,9 +250,9 @@ FUNCS : FUNC FUNCS 										{	$$ = newNode(EMPTY_TYPE, NULL);
 	  |													{	$$ = NULL;}
 	  ;
 
-FUNC : is_fun var_name TYPE open_par ALL_ARGS close_par fuopen BODY fuclose	{	$$ = newNode(EMPTY_TYPE, NULL);
+FUNC : var_name is_fun TYPE open_par ALL_ARGS close_par fuopen BODY fuclose	{	$$ = newNode(EMPTY_TYPE, NULL);
 																			append($$, $3);
-																			append($$, newNode(READ_AS_TYPE, $2));
+																			append($$, newNode(READ_AS_TYPE, $1));
 																			append($$, newNode(READ_AS_TYPE, "("));
 																			append($$, $5);
 																			append($$, newNode(READ_AS_TYPE, ")"));
@@ -339,7 +339,7 @@ RET : t_ret EXP														{	$$ = newNode(EMPTY_TYPE, NULL);
 																	}
 	| t_ret															{	$$ = newNode(EMPTY_TYPE, NULL);
 																		append($$, newNode(READ_AS_TYPE, "return"));
-																	}	
+																	}
 	;
 
 BLOCK : IFBLOCK														{	$$ = $1;}

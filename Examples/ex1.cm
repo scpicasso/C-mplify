@@ -1,12 +1,16 @@
 def NUM 1.
 
-main i () {
-i var NUM.
-i new var + 3.
-i var3 2.
-w(new).
-new new + var3.
-w(new).
+func funcionpoderosa i ().
 
-ret new.
+funcionpoderosa func i () {
+ i var.
+ ret 1.
+}
+
+main i () {
+i var 1.
+i new var + 3.
+i var3 0.
+var3 var + var
+ret 1.
 }
