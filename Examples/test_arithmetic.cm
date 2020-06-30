@@ -1,0 +1,32 @@
+    main i (){
+        i var1 3.
+        i var2 4.
+        i aux.
+        w("var1 = 3\n").
+        w("var2 = 4\n").
+        w("Format: var3 = var1 op var2\n\n").
+        w("addition, var3 should be 7\n").
+        i var3 var1 + var2.
+        w("var3 = ").
+        w(var3).
+        w("\n\n").
+
+        w("multiplication, var3 should be 12\n").
+        var3 var1 * var2.
+        w("var3 = ").
+        w(var3).
+        w("\n\n").
+
+
+        w("division, var3 should be 0\n").
+        var3 var1 / var2.
+        w("var3 = ").
+        w(var3).
+        w("\n\n").
+
+        w("subtraction, var3 should be -1\n").
+        var3 var1 - var2.
+        w("var3 = ").
+        w(var3).
+        w("\n\n").
+    }
