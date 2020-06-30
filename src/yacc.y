@@ -306,6 +306,7 @@ INC : var_name increase												{	if(getType($1) != INT_TYPE) {
 																			yyerror("This operation is only for int types \n");
 
 																		}
+																		$$ = newNode(EMPTY_TYPE, NULL);
 																		append($$, newNode(READ_AS_TYPE, $1));
 																		append($$, newNode(READ_AS_TYPE, "++"));
 																	}
@@ -315,6 +316,7 @@ DEC : var_name decrease												{	if(getType($1) != INT_TYPE) {
 																			yyerror("This operation is only for int types \n");
 
 																		}
+																		$$ = newNode(EMPTY_TYPE, NULL);
 																		append($$, newNode(READ_AS_TYPE, $1));
 																		append($$, newNode(READ_AS_TYPE, "--"));
 																	}

@@ -1,0 +1,9 @@
+main i () {
+i var 1.
+i new var + 3.
+i var3 0.
+var3 var + var.
+var3--.
+var3++.
+ret 0.
+}
