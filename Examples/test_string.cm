@@ -1,0 +1,24 @@
+
+main i () {
+    s var "chau".
+    w(var + "\n").
+
+    s var2.
+    w("Escribir una palabra\n").
+    r(var2).
+    w("La palabra es " + var2 + "\n").
+
+
+    s var3 "Las palabras son iguales\n".
+    c var = var2.
+        w(var3).
+    cc
+    c var ! var2.
+        w("Las palabras son distintas\n").
+    cc
+
+
+    s str var + var2 + "\n".
+    w("La concatenacion es " + str).
+    ret 0.
+}
