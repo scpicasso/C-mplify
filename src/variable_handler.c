@@ -12,10 +12,10 @@ struct Node* addExp(struct Node* n1, struct Node* n2) {
     else if (n1->type == STR_TYPE && n2->type == STR_TYPE) {
         if (n1->value != NULL && n2->value != NULL) {
             int len1 = strlen(n1->value);
-            char* value = malloc(len1 + strlen(n2->value)-1);
-            strncpy(value, n1->value, len1 - 1);
-            strcpy(value + len1 - 1, n2->value + 1);
-            n = newNode(STR_TYPE, value);
+            char new_str[len1 + strlen(n2->value) -1];
+            strncpy(new_str, n1->value, len1 - 1);
+            strcat(new_str, n2->value);
+            n = newNode(STR_TYPE, new_str);
         } 
         else if (n1->value == NULL && n2->value != NULL) {
             n = newNode(STR_TYPE, n2->value);

@@ -349,7 +349,7 @@ BLOCK : IFBLOCK														{	$$ = $1;}
 IFBLOCK : open_if EVALUATE end BODY close_if						{	$$ = newNode(EMPTY_TYPE, NULL);
 																		append($$, newNode(READ_AS_TYPE, "if("));
 																		append($$, $2);
-																		append($$, newNode(READ_AS_TYPE, ") {/n"));
+																		append($$, newNode(READ_AS_TYPE, ") {\n"));
 																		append($$, $4);
 																		append($$, newNode(READ_AS_TYPE, "}\n"));
 																	}
@@ -358,7 +358,7 @@ IFBLOCK : open_if EVALUATE end BODY close_if						{	$$ = newNode(EMPTY_TYPE, NUL
 WHILEBLOCK : open_while EVALUATE end BODY close_while				{	$$ = newNode(EMPTY_TYPE, NULL);
 																		append($$, newNode(READ_AS_TYPE, "while("));
 																		append($$, $2);
-																		append($$, newNode(READ_AS_TYPE, ") {/n"));
+																		append($$, newNode(READ_AS_TYPE, ") {\n"));
 																		append($$, $4);
 																		append($$, newNode(READ_AS_TYPE, "}\n"));
 																	}

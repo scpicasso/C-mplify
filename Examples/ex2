@@ -1,10 +1,20 @@
 
 main i () {
-s var "chau".
+s var "chau\n".
 w(var).
 s var2.
 r(var2).
 w(var2).
+s var3 "a imprimir si es chau\n".
+c var = var2.
+w(var3).
+cc
+s var4 "me imprimo 3 veces\n".
+i num 3.
+l num > 0.
+w(var4).
+num num - 1.
+cl
 
 ret.
 }
