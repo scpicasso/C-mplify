@@ -20,7 +20,9 @@ FILE* temp_file;
 
 extern FILE* yyin;
 
-void closeParser(bool keep);
+void closeFiles();
+
+void deleteTemp(bool keep);
 
 void gccCompilation(char* output_file);
 

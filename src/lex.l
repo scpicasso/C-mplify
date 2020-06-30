@@ -6,7 +6,6 @@
     extern void yyerror(const char* s);
 %}
 
-%option
 %option yylineno
 %x comment
 

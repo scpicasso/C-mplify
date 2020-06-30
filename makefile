@@ -3,7 +3,7 @@ all: c-mplify
 
 c-mplify:
 	cd ./src; \
-	yacc -d -v yacc.y; \
+	yacc -d yacc.y; \
 	lex lex.l; \
 	gcc -o ../c-mplify y.tab.c lex.yy.c node.c variable_handler.c compiler.c
 

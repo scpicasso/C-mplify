@@ -1,9 +1,0 @@
-def SUM 3.
-
-i var 3.
-i var2 4.
-
-main i () {
-	w(var).
-	ret.
-}

@@ -4,5 +4,6 @@ main i () {
 i var 1.
 i new var + 3.
 i var3 0.
+
 ret 1.
 }

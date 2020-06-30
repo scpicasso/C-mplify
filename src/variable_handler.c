@@ -1,14 +1,13 @@
 #include "variable_handler.h"
 #include "node.h"
 
+bool main_called = false;
 int var_index = 0;
 
-bool main_called = false;
-
 struct Node* addExp(struct Node* n1, struct Node* n2) {
-    struct Node* ret;
+    struct Node* n;
     if (n1->type == INT_TYPE && n2->type == INT_TYPE) {
-        ret = intOp(n1, n2, ADD);
+        n = intOp(n1, n2, ADD);
     } 
     else if (n1->type == STR_TYPE && n2->type == STR_TYPE) {
         if (n1->value != NULL && n2->value != NULL) {
@@ -16,66 +15,66 @@ struct Node* addExp(struct Node* n1, struct Node* n2) {
             char* value = malloc(len1 + strlen(n2->value)-1);
             strncpy(value, n1->value, len1 - 1);
             strcpy(value + len1 - 1, n2->value + 1);
-            ret = newNode(STR_TYPE, value);
+            n = newNode(STR_TYPE, value);
         } 
         else if (n1->value == NULL && n2->value != NULL) {
-            ret = newNode(STR_TYPE, n2->value);
+            n = newNode(STR_TYPE, n2->value);
         }
         else if (n2->value == NULL && n1->value != NULL) {
-            ret = newNode(STR_TYPE, n1->value);
+            n = newNode(STR_TYPE, n1->value);
         }
         else {
-            ret = newNode(STR_TYPE, NULL);
+            n = newNode(STR_TYPE, NULL);
         }
     } 
     else {
         yyerror("Addition between incompatible types cannot be executed.\n");
     }
 
-    return ret;
+    return n;
 }
 
 struct Node* subExp(struct Node* n1, struct Node* n2) {
-    struct Node* ret;
+    struct Node* n;
     if (n1->type == INT_TYPE && n2->type == INT_TYPE) {
-        ret = intOp(n1, n2, SUB);
+        n = intOp(n1, n2, SUB);
     } 
     else {
         yyerror("Substraction between incompatible types cannot be executed.\n");
     }
-    return ret;
+    return n;
 }
 
 struct Node* multExp(struct Node* n1, struct Node* n2) {
-    struct Node* ret;
+    struct Node* n;
     if (n1->type == INT_TYPE && n2->type == INT_TYPE) {
-        ret = intOp(n1, n2, MULT);
+        n = intOp(n1, n2, MULT);
     }
     else {
         yyerror("Multiplication between incompatible types cannot be executed.\n");
     }
 
-    return ret;
+    return n;
 }
 
 struct Node* divExp(struct Node* n1, struct Node* n2) {
-    struct Node* ret;
+    struct Node* n;
     if (n1->type == INT_TYPE && n2->type == INT_TYPE) {
-        ret = intOp(n1, n2, DIV);
+        n = intOp(n1, n2, DIV);
     } 
     else {
         yyerror("Divition between incompatible types cannot be executed.\n");
     }
 
-    return ret;
+    return n;
 }
 
 struct Node* intOp(struct Node* n1, struct Node* n2, operation op) {
-    struct Node* ret;
+    struct Node* n;
     if (n1->value != NULL && n2->value != NULL) {
         int op1 = atoi(n1->value);
         int op2 = atoi(n2->value);
-        char* final_value = malloc(15);
+        char* final_value = malloc(18);
         int res;
         switch(op) {
             case ADD:
@@ -92,11 +91,11 @@ struct Node* intOp(struct Node* n1, struct Node* n2, operation op) {
                 break;
         }
         sprintf(final_value, "%d", res);
-        ret = newNode(INT_TYPE, final_value);
+        n = newNode(INT_TYPE, final_value);
     } 
     else {
-        ret = newNode(INT_TYPE, NULL);
-        append(ret, n1);
+        n = newNode(INT_TYPE, NULL);
+        append(n, n1);
         char* str;
         switch(op) {
             case ADD:
@@ -112,10 +111,10 @@ struct Node* intOp(struct Node* n1, struct Node* n2, operation op) {
                 str = " / ";
                 break;
         }
-        append(ret, newNode(READ_AS_TYPE, str));
-        append(ret, n2);
+        append(n, newNode(READ_AS_TYPE, str));
+        append(n, n2);
     }
-    return ret;
+    return n;
 }
 
 int addVariable(char* value, int type) {
@@ -128,7 +127,7 @@ int addVariable(char* value, int type) {
 }
 
 int getType(char* value) {
-    for (int i = var_index-1; i>-1; i--) {
+    for (int i = 0; i < var_index; i++) {
         if (strcmp(value, table[i].value) == 0) {
             return table[i].type;
         }

@@ -21,7 +21,7 @@
 
 %token<value> int_var string_var var_name
 
-%type<node> PROGRAM DEF_VARS GLOB_VARS DEF_FUNCS DEF_FUNC ARG FUNCS FUNC MAIN_FUNC DEF_VAR VARS VAR EXP ARGS TYPE BODY COMP EVALUATE OP LINE BLOCK IFBLOCK WHILEBLOCK DECLARE REASSIGN PRINT SCAN RET INC DEC ASSIGN ALL_ARGS CMD
+%type<node> PROGRAM DEF_VARS GLOB_VARS DEF_FUNCS DEF_FUNC ARG FUNCS FUNC MAIN_FUNC DEF_VAR VARS VAR EXP ARGS TYPE BODY COMP EVALUATE OP LINE BLOCK IFBLOCK WHILEBLOCK DECLARE REASSIGN PRINT SCAN RET INC DEC ASSIGN ALL_ARGS CMD EQ_FUNC
 
 %start PROGRAM
 
@@ -82,7 +82,7 @@ VAR : DECLARE											{	$$=$1;}
 	| REASSIGN											{	$$=$1;}
 	;
 
-DECLARE : TYPE var_name ASSIGN								{	if(addVariable($2, $1->type) == -1) {																yyerror("Variable limit surpassed \n");
+DECLARE : TYPE var_name ASSIGN								{	if(addVariable($2, $1->type) == -1) {																	yyerror("Variable limit surpassed \n");
 																}
 																if($3 != NULL && ($1->type != $3->type)) {
 																	yyerror("Cannot assign incompatible types \n");
@@ -134,8 +134,21 @@ EXP : string_var										{	$$ = newNode(STR_TYPE, $1);}
 																append($$, newNode(READ_AS_TYPE,")"));
 															}
 														}
+	| EQ_FUNC											{	$$ = $1;}
 	| OP 												{	$$ = $1;}
 	;
+
+EQ_FUNC : var_name open_par ARGS close_par 				{	int aux = getType($1);
+															if(aux == -1) {
+																yyerror("Undeclared function\n");
+															}
+															$$ = newNode(aux, NULL);
+															append($$, newNode(READ_AS_TYPE, $1));
+															append($$, newNode(READ_AS_TYPE, "("));
+															append($$, $3);
+															append($$, newNode(READ_AS_TYPE, ")"));
+														}
+		;
 
 OP : EXP add EXP										{	$$ = addExp($1, $3);}
    | EXP sub EXP										{	$$ = subExp($1, $3);}
@@ -294,7 +307,7 @@ DEC : var_name decrease												{	if(getType($1) != INT_TYPE) {
 																	}
 	;
 
-PRINT : t_printf open_par EXP close_par									{	$$ = newNode(EMPTY_TYPE, NULL);
+PRINT : t_printf open_par EXP close_par								{	$$ = newNode(EMPTY_TYPE, NULL);
 																		if($3->type == INT_TYPE) {
 																			append($$, newNode(READ_AS_TYPE, "printf(\"%d\", "));
 																		}
@@ -376,7 +389,8 @@ void headers() {
 
 void yyerror(const char* msg) {
 	fprintf(stderr, "In line: %d \nYACC Error: %s\n", yylineno, msg);
-	closeParser(false);
+	closeFiles();
+	deleteTemp(false);
 	exit(1);
 }
 
