@@ -1,0 +1,4 @@
+    main i (){
+        i aux 1 + "hola".
+        ret 1.
+    }
