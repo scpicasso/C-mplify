@@ -1,0 +1,14 @@
+main i () {
+    i aux 3.
+    l aux >= 0.
+        c aux ! 0.
+            w(aux).
+            w("\n").
+        cc
+        c aux = 0.
+            w("done\n").
+        cc
+        aux--.
+    cl
+    ret 1.
+}
